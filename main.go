@@ -24,6 +24,7 @@ func main() {
 	defer conn.Close()
 
 	//rand.Seed(time.Now().UnixNano())
+	go GetInfoRasp()
 
 	for {
 		y0 := rand.Intn(2) * 65280 //Queimador caldeira
