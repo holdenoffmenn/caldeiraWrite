@@ -4,9 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	
+	"strconv"
+
 	"net/http"
-	
+
 	"time"
 
 	"github.com/shirou/gopsutil/cpu"
@@ -15,8 +16,8 @@ import (
 )
 
 type Dados struct {
-	MemoryUsage     int    `json:"memoryUsage"`
-	DiskUsage       int    `json:"diskUsage"`
+	MemoryUsage      string    `json:"memoryUsage"`
+	DiskUsage        string    `json:"diskUsage"`
 	ConnectedDevices string `json:"connectedDevices"`
 }
 
@@ -40,13 +41,17 @@ func GetInfoRasp() {
 			return
 		}
 
-		fmt.Printf("\rUso da CPU: %.2f%%  Uso do Disco: %.2f%%  Uso da Memória: %.2f%%",
+		fmt.Printf("Uso da CPU: %.2f%%  Uso do Disco: %.2f%%  Uso da Memória: %.2f%%",
 			cpuUsage[0], diskUsage.UsedPercent, memUsage.UsedPercent)
 
+		mem := strconv.Itoa(int(memUsage.UsedPercent))
+		disk := strconv.Itoa(int(diskUsage.UsedPercent))
+		cpu := strconv.Itoa(int(cpuUsage[0]))
+
 		dados := Dados{
-			MemoryUsage: int(memUsage.UsedPercent),
-			DiskUsage: int(diskUsage.UsedPercent),
-			ConnectedDevices: "",
+			MemoryUsage:      mem,
+			DiskUsage:        disk,
+			ConnectedDevices: cpu,
 		}
 		enviarRequisicaoPost(dados)
 
@@ -54,11 +59,9 @@ func GetInfoRasp() {
 	}
 }
 
-
-
 func enviarRequisicaoPost(dados Dados) {
 	// Crie uma instância da estrutura Dados com os valores desejados
-	
+
 	// Converta a estrutura em formato JSON
 	payload, err := json.Marshal(dados)
 	if err != nil {
