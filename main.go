@@ -9,9 +9,12 @@ import (
 )
 
 func main() {
-	conn := modbus.NewTCPClientHandler("172.16.16.61:502")
+	conn := modbus.NewTCPClientHandler("192.168.1.5:502")
+	conn.Timeout = 2 * time.Minute
+	conn.SlaveId = 1
 
 	err := conn.Connect()
+
 	if err != nil {
 		fmt.Println("connect failed, ", err)
 		return
@@ -25,17 +28,30 @@ func main() {
 	for {
 		y0 := rand.Intn(2) * 65280
 		y1 := rand.Intn(2) * 65280
+		y2 := rand.Intn(2) * 65280
+		y3 := rand.Intn(2) * 65280
 
-		d1000 := rand.Intn(161) + 20
-		d2000 := rand.Intn(601) + 300
+		d1 := rand.Intn(161) + 20
+		d2 := rand.Intn(601) + 300
+		d3 := rand.Intn(161) + 20
+		d4 := rand.Intn(601) + 300
 
 		client.WriteSingleCoil(40960, uint16(y0))
-		client.WriteSingleCoil(20484, uint16(y1))
+		client.WriteSingleCoil(40961, uint16(y1))
+		client.WriteSingleCoil(40962, uint16(y2))
+		client.WriteSingleCoil(40963, uint16(y3))
 
-		client.WriteSingleRegister(1000, uint16(d1000))
-		client.WriteSingleRegister(2000, uint16(d2000))
+		client.WriteSingleRegister(0, uint16(d1))
+		client.WriteSingleRegister(1, uint16(d2))
+		client.WriteSingleRegister(2, uint16(d3))
+		client.WriteSingleRegister(3, uint16(d4))
 
-		fmt.Printf("Y0[%d] - Y1[%d] - D1000[%d] - D2000[%d]\n", y0, y1, d1000, d2000)
+		fmt.Printf("BIT - Y0.0[%d] - Y0.1[%d] - Y0.2[%d] - Y0.3[%d]\n",
+			y0, y1, y2, y3)
+
+		fmt.Printf("WORD - D0[%d] - D1[%d] - D2[%d] - D3[%d]\n",
+			d1, d2, d3, d4)
+		fmt.Printf("\n======>  <======\n")
 
 		time.Sleep(5 * time.Second)
 

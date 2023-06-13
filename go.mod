@@ -1,4 +1,4 @@
-module writecaldeira
+module caldeiraWrite
 
 go 1.20
 
