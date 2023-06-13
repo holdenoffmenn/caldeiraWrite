@@ -26,15 +26,15 @@ func main() {
 	//rand.Seed(time.Now().UnixNano())
 
 	for {
-		y0 := rand.Intn(2) * 65280
-		y1 := rand.Intn(2) * 65280
-		y2 := rand.Intn(2) * 65280
-		y3 := rand.Intn(2) * 65280
+		y0 := rand.Intn(2) * 65280 //Queimador caldeira
+		y1 := rand.Intn(2) * 65280 //ValvulaAgua
+		y2 := rand.Intn(2) * 65280 //ValvulaPressao
+		y3 := rand.Intn(2) * 65280 //BombaDAgua
 
-		d1 := rand.Intn(161) + 20
-		d2 := rand.Intn(601) + 300
-		d3 := rand.Intn(161) + 20
-		d4 := rand.Intn(601) + 300
+		d1 := rand.Intn(2000-2500+1) + 2000 //NivelAgua
+		d2 := rand.Intn(1600-1250+1) + 1250 //TemperaturaCaldeira (1250~1600)
+		d3 := rand.Intn(40-11+1) + 11       //PressaoINterna
+		d4 := rand.Intn(1600-200+1) + 200   //EnergiaGErada
 
 		client.WriteSingleCoil(40960, uint16(y0))
 		client.WriteSingleCoil(40961, uint16(y1))
