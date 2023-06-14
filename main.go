@@ -1,15 +1,15 @@
 package main
 
-import(
-"fmt"
-"math/rand"
-"time"
+import (
+	"fmt"
+	"math/rand"
+	"time"
 
-modbus "github.com/goburrow/modbus"
+	modbus "github.com/goburrow/modbus"
 )
 
 func main() {
-	conn := modbus.NewTCPClientHandler("192.168.1.5:502")
+	conn := modbus.NewTCPClientHandler("172.16.16.61:502")
 	conn.Timeout = 2 * time.Minute
 	conn.SlaveId = 1
 
