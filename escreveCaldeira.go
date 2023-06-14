@@ -1,14 +1,15 @@
 package main
 
 import(
-"fmt"
-"math/rand"
-"time"
+	"fmt"
+	"math/rand"
+	"time"
 
-modbus "github.com/goburrow/modbus"
+	modbus "github.com/goburrow/modbus"
 )
 
-func main() {
+func Escreve(){
+
 	conn := modbus.NewTCPClientHandler("192.168.1.5:502")
 	conn.Timeout = 2 * time.Minute
 	conn.SlaveId = 1
@@ -31,7 +32,7 @@ func main() {
 		y2 := rand.Intn(2) * 65280 //ValvulaPressao
 		y3 := rand.Intn(2) * 65280 //BombaDAgua
 
-		d1 := rand.Intn(2500-2000+1) + 2000 //NivelAgua
+		d1 := rand.Intn(2000-2500+1) + 2000 //NivelAgua
 		d2 := rand.Intn(1600-1250+1) + 1250 //TemperaturaCaldeira (1250~1600)
 		d3 := rand.Intn(40-11+1) + 11       //PressaoINterna
 		d4 := rand.Intn(1600-200+1) + 200   //EnergiaGErada
@@ -56,5 +57,6 @@ func main() {
 		time.Sleep(5 * time.Second)
 
 	}
+
 
 }
